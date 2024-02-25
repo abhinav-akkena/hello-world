@@ -1,0 +1,21 @@
+name: "update subtree"
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  update-lib:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: karlludwigweise/git-subtree@v1
+        with:
+          pat: ${{ secrets.PAT }}
+          repo: https://github.com/abhinav-akkena/docs-subtree.git
+          action: pull
+          prefix: docs/common
+          message: Update common docs
+      - name: push
+        run: git push
